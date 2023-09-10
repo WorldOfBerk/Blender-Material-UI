@@ -59,6 +59,6 @@ Your support is invaluable! Don't forget to star my project on GitHub to show yo
 
 ## Feedback and Support
 
-Feel free to give feedback and suggestions for improving the Berks UI add-on. If you encounter any issues or have feature requests, please visit [GitHub repository](https://github.com/yourusername/your-repo) and create an issue. I will do my best to address your needs and improve the add-on.
+Feel free to give feedback and suggestions for improving the Berks UI add-on. If you encounter any issues or have feature requests, please visit [GitHub repository](https://github.com/WorldOfBerk/Blender-Material-UI) and create an issue. I will do my best to address your needs and improve the add-on.
 
 Thank you for using the Berks UI add-on. I hope it enhances your Blender experience and helps you create amazing 3D models with ease.
