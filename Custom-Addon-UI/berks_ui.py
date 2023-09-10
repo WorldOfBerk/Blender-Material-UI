@@ -1,3 +1,14 @@
+bl_info = {
+    "name": "Berks UI",
+    "description": "Create a Berks UI for material managing.",
+    "author": "B. Berk Şengül",
+    "version": (0, 0, 1),
+    "blender": (3, 5, 0),
+    "warning": "",
+    "doc_url": "https://github.com/WorldOfBerk/Blender-Material-UI",
+    "category": "User Interface",
+}
+
 import bpy
 from bpy.types import Operator
 from bpy.props import FloatVectorProperty
