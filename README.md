@@ -6,20 +6,23 @@ The **Berks UI** is a Blender add-on that enhances your 3D modeling workflow by 
 
 ## Features
 
-### Material Selection
-
-- Easily select materials from a dropdown menu for the active object.
-- Streamline your workflow by quickly switching between different materials.
-
 ### Material Creation
 
 - Create new materials with a single click using the "Create New Material" button.
 - Speed up your material creation process and keep your workspace organized.
+  ![Creation](https://github.com/WorldOfBerk/Blender-Material-UI/blob/main/GIFs/Material_creation.gif)
+
+### Material Selection
+
+- Easily select materials from a dropdown menu for the active object.
+- Streamline your workflow by quickly switching between different materials.
+  ![Assign](https://github.com/WorldOfBerk/Blender-Material-UI/blob/main/GIFs/Material_assign.gif)
 
 ### Color Adjustment
 
 - Adjust the base color of selected materials with the "Change Color" button.
 - Seamlessly modify the appearance of your models by changing material colors.
+  ![Color](https://github.com/WorldOfBerk/Blender-Material-UI/blob/main/GIFs/Material_color_change.gif)
 
 ### Info Section
 
