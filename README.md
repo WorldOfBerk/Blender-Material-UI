@@ -27,7 +27,7 @@ The **Berks UI** is a Blender add-on that enhances your 3D modeling workflow by 
 ### Info Section
 
 - Access important information and resources in the "Info" section of the UI.
-- Stay connected with a direct link to your GitHub repository for the add-on.
+- Stay connected with a direct link to my GitHub repository for the add-on.
 
 ## Installation
 
