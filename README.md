@@ -39,7 +39,7 @@ To install the Berks UI add-on in Blender, follow these steps:
 4. Select the "Add-ons" tab on the left.
 5. Click the "Install..." button at the top right.
 6. Locate and select the `berks_ui.py` file on your computer.
-7. Enable the add-on by checking the checkbox next to "Berks UI."
+7. Enable the add-on by checking the checkbox next to "Berks UI".
 
 ## Usage
 
