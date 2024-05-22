@@ -3,7 +3,7 @@ bl_info = {
     "description": "Create a Berks UI for material managing.",
     "author": "B. Berk Şengül",
     "version": (0, 0, 1),
-    "blender": (3, 5, 0),
+    "blender": (4, 0, 0),
     "warning": "",
     "doc_url": "https://github.com/WorldOfBerk/Blender-Material-UI",
     "category": "User Interface",
