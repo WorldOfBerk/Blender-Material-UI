@@ -46,7 +46,7 @@ To install the Berks UI add-on in Blender, follow these steps:
 1. After enabling the add-on, open the 3D Viewport in Blender.
 2. Press the "N" key to open the right-side panel.
 3. Find the "Berks UI" tab in the panel.
-4. Use the dropdown menu to select materials, create new materials, and change colors.
+4. Use the dropdown menu to select materials, create new materials, change colors, and change shaders.
 5. Access additional information and your GitHub repository link in the "Info" section.
 
 ## Future Features (Coming Soon)
@@ -57,9 +57,11 @@ Your support is invaluable! Don't forget to star my project on GitHub to show yo
 
 ## Version History
 
-- **Version 0.0.1** (Current Version)
+- **Version 0.0.1** 
   - Initial release of the Berks UI add-on.
-
+- **Version 1.1.0** (Current Version)
+  - Simultaneous material color change.
+  - Shader type selection. 
 ## Feedback and Support
 
 Feel free to give feedback and suggestions for improving the Berks UI add-on. If you encounter any issues or have feature requests, please visit [GitHub repository](https://github.com/WorldOfBerk/Blender-Material-UI) and create an issue. I will do my best to address your needs and improve the add-on.
