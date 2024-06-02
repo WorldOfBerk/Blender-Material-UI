@@ -1,29 +1,56 @@
 bl_info = {
     "name": "Berks UI",
-    "description": "Create a Berks UI for material managing.",
+    "description": "Create a Berks UI for simple material managing.",
     "author": "B. Berk Şengül",
-    "version": (0, 0, 1),
-    "blender": (4, 0, 0),
+    "version": (1, 1, 0),
+    "blender": (4, 0, 2),
     "warning": "",
     "doc_url": "https://github.com/WorldOfBerk/Blender-Material-UI",
     "category": "User Interface",
 }
 
 import bpy
-from bpy.types import Operator
-from bpy.props import FloatVectorProperty
+from bpy.types import Operator, Panel
 
 # Version
-version = "0.0.1"
+version = "1.1.0"
 
-class CustomUITab(bpy.types.Panel):
+def update_shader(self, context):
+    mat = context.object.active_material
+    if mat:
+        nodes = mat.node_tree.nodes
+        links = mat.node_tree.links
+
+        # Remove all existing nodes
+        for node in nodes:
+            nodes.remove(node)
+
+        # Add new shader node and material output node
+        shader_node = nodes.new(type=self.shader_type)
+        output_node = nodes.new(type='ShaderNodeOutputMaterial')
+
+        # Link new shader node to material output node
+        links.new(shader_node.outputs[0], output_node.inputs[0])
+
+        # Set the name for easy access later
+        shader_node.name = self.shader_type
+
+class CustomUITab(Panel):
     bl_label = "Berks UI"
     bl_idname = "PT_CustomUITab"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_category = "Berks UI"
 
-    def draw(self, context):
+    @classmethod
+    def poll(cls, context):
+        return context.object is not None and context.object.active_material is not None
+
+    def invoke(self, context, event):
+        update_shader(context.scene, context)
+        return self.execute(context)
+
+    def execute(self, context):
         layout = self.layout
         obj = context.object
 
@@ -34,9 +61,27 @@ class CustomUITab(bpy.types.Panel):
         # Button to create a new material
         layout.operator("material.new_material", text="Create New Material")
 
-        # Button for color changing
-        layout.label(text="Change Color:")
-        layout.operator("material.change_color", text="Change Color")
+        # Surface shader selection
+        #layout.label(text="Surface:")
+        layout.prop(context.scene, "shader_type", text="Shader")
+
+        if obj.active_material:
+            node_tree = obj.active_material.node_tree
+            nodes = node_tree.nodes
+
+            shader_node = nodes.get(context.scene.shader_type)
+
+            if shader_node:
+                if context.scene.shader_type == 'ShaderNodeBsdfPrincipled':
+                    layout.prop(shader_node.inputs['Base Color'], "default_value", text="Base Color")
+                    layout.prop(shader_node.inputs['Metallic'], "default_value", text="Metallic")
+                    layout.prop(shader_node.inputs['Roughness'], "default_value", text="Roughness")
+                elif context.scene.shader_type == 'ShaderNodeBsdfDiffuse':
+                    layout.prop(shader_node.inputs['Color'], "default_value", text="Color")
+                    layout.prop(shader_node.inputs['Roughness'], "default_value", text="Roughness")
+                elif context.scene.shader_type == 'ShaderNodeBsdfGlossy':
+                    layout.prop(shader_node.inputs['Color'], "default_value", text="Color")
+                    layout.prop(shader_node.inputs['Roughness'], "default_value", text="Roughness")
 
         # Info section
         layout.separator()
@@ -49,6 +94,9 @@ class CustomUITab(bpy.types.Panel):
         # Version display
         layout.label(text=f"Version: {version}")
 
+    def draw(self, context):
+        self.execute(context)
+
 class NewMaterialOperator(Operator):
     bl_idname = "material.new_material"
     bl_label = "Create New Material"
@@ -57,50 +105,24 @@ class NewMaterialOperator(Operator):
         bpy.ops.material.new()
         return {'FINISHED'}
 
-class ChangeColorOperator(Operator):
-    bl_idname = "material.change_color"
-    bl_label = "Change Color"
-
-    def invoke(self, context, event):
-        # Get the initial color of the selected material
-        active_material = context.object.active_material
-        if active_material:
-            bsdf = active_material.node_tree.nodes.get('Principled BSDF')
-            if bsdf:
-                self.color = bsdf.inputs['Base Color'].default_value
-        context.window_manager.invoke_props_dialog(self)
-        return {'RUNNING_MODAL'}
-
-    def execute(self, context):
-        active_material = context.object.active_material
-
-        # Access the Principled BSDF shader
-        bsdf = active_material.node_tree.nodes.get('Principled BSDF')
-
-        # Change the Base Color
-        if bsdf:
-            bsdf.inputs['Base Color'].default_value = self.color
-
-        return {'FINISHED'}
-
-    color: FloatVectorProperty(
-        name="Color",
-        subtype='COLOR',
-        size=4,  # Set the size to 4
-        min=0.0,
-        max=1.0,
-        default=(1.0, 1.0, 1.0, 1.0)  # Set the default alpha value to 1, can be visible in SOLID mode
-    )
-
 def register():
     bpy.utils.register_class(CustomUITab)
     bpy.utils.register_class(NewMaterialOperator)
-    bpy.utils.register_class(ChangeColorOperator)
+    bpy.types.Scene.shader_type = bpy.props.EnumProperty(
+        items=[
+            ('ShaderNodeBsdfPrincipled', 'Principled BSDF', ''),
+            ('ShaderNodeBsdfDiffuse', 'Diffuse BSDF', ''),
+            ('ShaderNodeBsdfGlossy', 'Glossy BSDF', '')
+        ],
+        name="Shader",
+        default='ShaderNodeBsdfPrincipled',
+        update=update_shader
+    )
 
 def unregister():
     bpy.utils.unregister_class(CustomUITab)
     bpy.utils.unregister_class(NewMaterialOperator)
-    bpy.utils.unregister_class(ChangeColorOperator)
+    del bpy.types.Scene.shader_type
 
 if __name__ == "__main__":
     register()
